@@ -1,8 +1,19 @@
 import React from 'react'
-
+import {Route,Routes} from 'react-router-dom'
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import {Toaster} from 'react-hot-toast'
+import Header from './components/Header';
 const App = () => {
   return (
-    <div className='text-3xl text-red-500'>App</div>
+  <>
+  <Toaster/>
+  <Header/>
+  <Routes>
+    <Route path='/login' element={<Login/>} />
+    <Route path='/signup' element={<Signup/>} />
+  </Routes>
+  </>
   )
 }
 
