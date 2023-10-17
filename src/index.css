@@ -1,16 +1,8 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ---------------------importing font family -------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;500;700&family=Open+Sans:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
-
-:root{
-    --openSans-text:'Open Sans', sans-serif;
-    --poppins-text:'poppins', sans-serif;
-}
-
-*{
-    font-family: var(--openSans-text);
+body{
+    background-color: rgb(220, 220, 220);
 }
