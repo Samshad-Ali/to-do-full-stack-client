@@ -6,3 +6,28 @@
 body{
     background-color: rgb(220, 220, 220);
 }
+
+.photoLabel{
+    position: relative;
+    overflow: hidden;
+}
+.photoLabel::after{
+    content: 'Upload Photo';
+    position: absolute;
+    width: 80px;
+    height: 100%;
+    font-size: .7rem;
+    border-radius: 5px;
+    background-color:whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    right:-5.5rem;
+    display:none;
+    text-align: center;
+}
+
+.photoLabel:hover::after{
+    display: flex;
+}

@@ -5,20 +5,19 @@ const CreateNote = () => {
     const [title,setTitle]=useState('');
     const [description,setDescription]=useState('');
     const handleCreateBtn=()=>{
-        
     }
   return (
-    <div className="sm:w-96 w-full flex flex-col gap-1 rounded-sm border bg-white shadow-md shadow-gray-400 p-2">
+    <div className="sm:w-1/2 w-full flex flex-col gap-0 rounded-sm border bg-white shadow-md shadow-gray-400 p-2">
             <input 
             onChange={(e)=>{setTitle(e.target.value)}}
             value={title}
-            className=' bg-transparent border-b-2 border-gray-300 pl-2 p-1 overflow-hidden rounded-sm outline-none' type="text" placeholder='Title...' />
+            className=' bg-transparent placeholder:text-gray-600 font-semibold text-gray-800 pl-2 p-1 overflow-hidden rounded-sm outline-none' type="text" placeholder='Title..' />
             <textarea 
             onChange={(e)=>{setDescription(e.target.value)}}
             value={description}
-            className=' bg-transparent border-b-2 border-gray-300 pl-2 p-1 overflow-hidden rounded-sm resize-none outline-none' placeholder='Description' cols="30" rows="4"></textarea>
-            <div>
-                <label htmlFor="image" className='text-2xl cursor-pointer'>
+            className=' bg-transparent placeholder:text-gray-600 font-semibold text-gray-600 pl-2 p-1 overflow-hidden rounded-sm resize-none outline-none' placeholder='Description...' cols="30" rows="2"></textarea>
+            <div className='w-fit'>
+                <label htmlFor="image" className=' photoLabel text-2xl cursor-pointer '>
                     <MdPhotoSizeSelectActual/>
                 </label>
                 <input className='hidden' type="file" id='image' accept='image/*' />
