@@ -2,18 +2,20 @@ import React, {useState } from 'react'
 import toast from 'react-hot-toast';
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import {axiosClient} from '../utils/axiosClient'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../redux/slices/noteSlice';
 const Signup = () => {
-    const isAuthenticated = useSelector(state=>state.noteReducer.isAuthenticated)
-    const [btn,setBtn] = useState(false)
+    const isAuthenticated = useSelector(state=>state.noteReducer.isAuthenticated);
+    const loading = useSelector(state=>state.noteReducer.loading)
+    const dispatch=useDispatch()
     const [name,setName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const navigate=useNavigate();
     const handleSignupBtn=async(e)=>{
         e.preventDefault();
-        setBtn(true)
         try {
+          dispatch(setLoading(true))
           const response=await axiosClient.post('/auth/register',{name,password,email});
           if(response.data.statusCode===401){
             navigate('/login')
@@ -25,8 +27,10 @@ const Signup = () => {
           toast.success(response.data.result)
           navigate('/login')
         } catch (error) {
+          dispatch(setLoading(false))
           toast.error(error.message)
         }finally{
+          dispatch(setLoading(false))
           setName('');
           setEmail('');
           setPassword('');
@@ -61,7 +65,10 @@ const Signup = () => {
             onChange={(e)=>{setPassword(e.target.value)}}
             />
           </div>
-          <input className={`mt-4 bg-gray-800 text-white p-2 rounded-sm font-semibold hover:text-gray-800 hover:border hover:border-gray-800 hover:bg-white transition-all cursor-pointer uppercase ${btn?'cursor-not-allowed':'cursor-pointer'}`} onClick={handleSignupBtn} type="submit" value={"Register"}/>
+    
+          <button  className={`mt-4 bg-gray-800 text-white p-2 rounded-sm font-semibold hover:text-gray-800 hover:border hover:border-gray-800 hover:bg-white transition-all uppercase ${loading?'cursor-not-allowed':'cursor-pointer'}`} onClick={handleSignupBtn}>
+            Register
+          </button>
           <p className='self-end text-xs'>Already have account ? <Link className='underline' to={'/login'}>login</Link> </p>
         </form>
       </div>

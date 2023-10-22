@@ -4,18 +4,20 @@ import {GiNotebook} from 'react-icons/gi'
 import {axiosClient} from '../utils/axiosClient'
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthenticated } from '../redux/slices/noteSlice';
+import { setAuthenticated, setLoading } from '../redux/slices/noteSlice';
 const Header = () => {
     const isAuthenticated = useSelector(state=>state?.noteReducer?.isAuthenticated);
+    const loading = useSelector(state=>state.noteReducer.loading)
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const handleLogoutBtn=async()=>{
         try {
+            dispatch(setLoading(true))
             const response = await axiosClient.get('/auth/logout');
             toast.success(response.data.result);
-            navigate('/login')
-          
+            navigate('/login') 
             dispatch(setAuthenticated(false));
+            dispatch(setLoading(false))
         } catch (error) {
             toast.error(error.message)
         }
@@ -36,7 +38,7 @@ const Header = () => {
                 : ""
             }
               {
-                isAuthenticated ?    <button onClick={handleLogoutBtn} className='cursor-pointer bg-red-600 text-white p-1 px-4 rounded-sm font-semibold hover:scale-95 transition-all'>
+                isAuthenticated ?    <button onClick={handleLogoutBtn} className={`bg-red-600 text-white p-1 px-4 rounded-sm font-semibold hover:scale-95 transition-all ${loading?'cursor-not-allowed':'cursor-pointer'}`}>
                 Logout
             </button> :
                            <li className='cursor-pointer bg-white text-gray-800 p-1 px-4 rounded-sm font-semibold hover:scale-95 transition-all'>

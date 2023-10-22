@@ -3,17 +3,17 @@ import toast from 'react-hot-toast'
 import { Link, Navigate } from 'react-router-dom'
 import { axiosClient } from '../utils/axiosClient';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthenticated } from '../redux/slices/noteSlice';
+import { setAuthenticated, setLoading } from '../redux/slices/noteSlice';
 const Login = () => {
     const isAuthenticated = useSelector(state=>state.noteReducer.isAuthenticated)
+    const loading = useSelector(state=>state.noteReducer.loading)
     const dispatch=useDispatch();
-    const [btn,setBtn] = useState(false)
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const handleLoginBtn=async(e)=>{
         e.preventDefault();
-        setBtn(true)
         try {
+          dispatch(setLoading(true))
           const response = await axiosClient.post('/auth/login',{
             email,password
           })
@@ -24,9 +24,11 @@ const Login = () => {
           dispatch(setAuthenticated(true))
         } catch (error) {
           toast.error(error.message)
+          dispatch(setLoading(false))
         }finally{
           setEmail('')
           setPassword('')
+          dispatch(setLoading(false))
         }
     }
 
@@ -51,7 +53,9 @@ const Login = () => {
         onChange={(e)=>{setPassword(e.target.value)}}
         />
       </div>
-      <input className={`mt-4 bg-gray-800 text-white p-2 rounded-sm font-semibold hover:text-gray-800 hover:border hover:border-gray-800 hover:bg-white transition-all cursor-pointer uppercase ${btn?'cursor-not-allowed':'cursor-pointer'} `} onClick={handleLoginBtn} type="submit" value={"Login"}/>
+      <button  className={`mt-4 bg-gray-800 text-white p-2 rounded-sm font-semibold hover:text-gray-800 hover:border hover:border-gray-800 hover:bg-white transition-all uppercase ${loading?'cursor-not-allowed':'cursor-pointer'} `} onClick={handleLoginBtn} >
+    Login
+      </button>
       <p className='self-end text-xs'>Didn't have account ? <Link className='underline' to={'/signup'}>signup</Link> </p>
     </form>
   </div>

@@ -23,9 +23,9 @@ const App = () => {
         }
         dispatch(setAuthenticated(true));
         dispatch(setUser(response.data.result))
-        console.log(response);
       }
-    catch (error) {
+      catch (error) {
+      navigate('/login')
       toast.error(err.message)
     }
   }
