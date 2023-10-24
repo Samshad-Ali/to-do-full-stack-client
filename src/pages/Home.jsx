@@ -17,9 +17,8 @@ const Home = () => {
       const response = await axiosClient.get('/note/notes');
       if(response.data.statusCode===201){
         setLoader(false)
-        dispatch(setRefresh(true))
-        console.log(response)
-        return dispatch(setNotes(response.data.result))
+         dispatch(setNotes(response.data.result))
+       return dispatch(setRefresh(true))
       }
       dispatch(setAuthenticated(false))
       navigate('/login')

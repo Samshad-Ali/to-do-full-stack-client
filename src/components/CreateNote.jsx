@@ -27,15 +27,15 @@ const CreateNote = () => {
     const handleCreateBtn=async()=>{
         try {
             dispatch(setLoading(true))
-            dispatch(setRefresh(!refresh))
             const response = await axiosClient.post('/note/create',{
                 img ,title,description
             })
             if(response.data.statusCode===404 || response.data.statusCode==501){
-               return toast.error(response.data.result)
+                return toast.error(response.data.result)
             }
             toast.success(response.data.result)
-            dispatch(setLoading(false))
+            dispatch(setRefresh(!refresh))
+           return dispatch(setLoading(false))
         } catch (error) {
             dispatch(setLoading(false))
             toast.error(error.message)

@@ -17,13 +17,15 @@ const Note=({note})=>{
     const handleDeleteBtn = async(id)=>{
         try {
             dispatch(setLoading(true))
-            dispatch(setRefresh(!refresh))
             const response = await axiosClient.delete(`/note/delete/${id}`);
             toast.success(response.data.result)
             dispatch(setLoading(false))
+            dispatch(setRefresh(!refresh))
         } catch (error) {
             dispatch(setLoading(false))
             toast.error(error.message)
+        }finally{
+            dispatch(setLoading(false))
         }
     }
 
@@ -31,18 +33,19 @@ const Note=({note})=>{
     const handleSaveBtn=async(id)=>{
         try {
             dispatch(setLoading(true))
-            dispatch(setRefresh(!refresh))
             const response = await axiosClient.put(`/note/update/${id}`,{title,description})
+            dispatch(setRefresh(!refresh))
             if(response.data.statusCode===201){
                 setEdit(false)
                 setLoading(false)
                 return toast.success(response.data.result)
             }
-            toast.error(response.data.result)
             dispatch(setLoading(false))
+            toast.error(response.data.result)
         } catch (error) {
             toast.error(error.message)
         }finally{
+            dispatch(setLoading(false))
             setTitle('')
             setDescription('')
         }
