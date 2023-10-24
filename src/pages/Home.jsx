@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { axiosClient } from '../utils/axiosClient.js';
 import toast from 'react-hot-toast';
-import { setAuthenticated, setNotes } from '../redux/slices/noteSlice.js';
+import { setAuthenticated, setNotes, setRefresh } from '../redux/slices/noteSlice.js';
 const Home = () => {
   const notes = useSelector(state=>state.noteReducer.notes);
+  const refresh = useSelector(state=>state.noteReducer.refresh);
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const [loader,setLoader] = useState(true);
@@ -16,6 +17,8 @@ const Home = () => {
       const response = await axiosClient.get('/note/notes');
       if(response.data.statusCode===201){
         setLoader(false)
+        dispatch(setRefresh(true))
+        console.log(response)
         return dispatch(setNotes(response.data.result))
       }
       dispatch(setAuthenticated(false))
@@ -27,7 +30,7 @@ const Home = () => {
   }
     useEffect(()=>{
      fetchData()
-    },[])
+    },[refresh])
   return (
     <main className='w-full flex justify-center items-center flex-col gap-4'>
     <h2 className='text-2xl'>Your Notes</h2>

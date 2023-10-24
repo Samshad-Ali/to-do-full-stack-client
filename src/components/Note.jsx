@@ -1,21 +1,23 @@
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosClient } from "../utils/axiosClient";
-import { setLoading } from "../redux/slices/noteSlice";
+import { setLoading, setRefresh } from "../redux/slices/noteSlice";
 import { useState } from "react";
 
 const Note=({note})=>{
     const [edit,setEdit] = useState(false);
-    const [save,setSave] = useState(false);
     const [title,setTitle]=useState('');
     const [description,setDescription]=useState('');
     const {title:t,description:desc,_id} = note;
     const loading = useSelector(state=>state.noteReducer.loading);
+  const refresh = useSelector(state=>state.noteReducer.refresh);
+
     const dispatch=useDispatch();
     // ---------- delete btn-----------------
     const handleDeleteBtn = async(id)=>{
         try {
             dispatch(setLoading(true))
+            dispatch(setRefresh(!refresh))
             const response = await axiosClient.delete(`/note/delete/${id}`);
             toast.success(response.data.result)
             dispatch(setLoading(false))
@@ -29,6 +31,7 @@ const Note=({note})=>{
     const handleSaveBtn=async(id)=>{
         try {
             dispatch(setLoading(true))
+            dispatch(setRefresh(!refresh))
             const response = await axiosClient.put(`/note/update/${id}`,{title,description})
             if(response.data.statusCode===201){
                 setEdit(false)

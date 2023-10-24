@@ -7,6 +7,7 @@ const noteSlice = createSlice({
         notes:[],
         isAuthenticated:false,
         loading:false,
+        refresh:false
     },
     reducers:{
         setNotes:(state,action)=>{
@@ -21,9 +22,13 @@ const noteSlice = createSlice({
         setLoading:(state,action)=>{
             state.loading=action.payload;
         },
+        setRefresh:(state,action)=>{
+            state.refresh=action.payload;
+            console.log(state.refresh)
+        }
     },
    
 })
 
 export default noteSlice.reducer;
-export const {setNotes,setUser,setAuthenticated,setLoading} = noteSlice.actions;
+export const {setNotes,setUser,setAuthenticated,setLoading,setRefresh} = noteSlice.actions;

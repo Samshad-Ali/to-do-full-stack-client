@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {MdPhotoSizeSelectActual} from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoading } from '../redux/slices/noteSlice';
+import { setLoading, setRefresh } from '../redux/slices/noteSlice';
 import { axiosClient } from '../utils/axiosClient';
 import toast from 'react-hot-toast';
 
@@ -10,6 +10,7 @@ const CreateNote = () => {
     const [description,setDescription]=useState('');
     const [img,setPostImg] = useState('');
     const dispatch=useDispatch();
+  const refresh = useSelector(state=>state.noteReducer.refresh);
     const loading = useSelector(state=>state.noteReducer.loading);
     // handleimg------------
     const handlePostImageChange = (e) =>{
@@ -26,6 +27,7 @@ const CreateNote = () => {
     const handleCreateBtn=async()=>{
         try {
             dispatch(setLoading(true))
+            dispatch(setRefresh(!refresh))
             const response = await axiosClient.post('/note/create',{
                 img ,title,description
             })
@@ -33,7 +35,6 @@ const CreateNote = () => {
                return toast.error(response.data.result)
             }
             toast.success(response.data.result)
-            console.log(response)
             dispatch(setLoading(false))
         } catch (error) {
             dispatch(setLoading(false))

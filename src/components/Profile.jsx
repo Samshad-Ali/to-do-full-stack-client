@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 const Profile = () => {
     const userData = useSelector(state=>state?.noteReducer?.user);
-    console.log(userData);
     return (
     <div className='w-full h-screen flex flex-col gap-6 justify-center items-center'>
         <img className='shadow-md shadow-slate-700 w-56 rounded-full h-56 object-cover' src={groot} />
