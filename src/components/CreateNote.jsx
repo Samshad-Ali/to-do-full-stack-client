@@ -22,7 +22,7 @@ const CreateNote = () => {
                 setPostImg(fileReader.result);
             }
         }
-      }
+      } 
     //   ---------createbtn-------------------
     const handleCreateBtn=async()=>{
         try {
